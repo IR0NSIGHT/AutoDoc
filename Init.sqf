@@ -1,5 +1,8 @@
-[] execVM "functions\fn_damage_ai.sqf";
-
+irn_fnc_damage_ai = {
+    params ["_ai"];
+    
+    [_ai, [[3, "Body", 1]], "bullet"] call ace_medical_damage_fnc_woundsHandlerBase
+};
 /**
 * will treat all wounds, respecting treating time per wound
 * directly returns time to treat, and spawns coroutine that fully heals after time is over
