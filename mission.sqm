@@ -12,14 +12,18 @@ class EditorData
 	};
 	class ItemIDProvider
 	{
-		nextID=40;
+		nextID=42;
+	};
+	class MarkerIDProvider
+	{
+		nextID=1;
 	};
 	class Camera
 	{
 		pos[]={4099.6182,230.59126,4584.6733};
-		dir[]={-0.30444863,-0.61051261,0.73115355};
-		up[]={-0.23468207,0.79200649,0.56360453};
-		aside[]={0.92316604,0,0.38440168};
+		dir[]={-0.3044486,-0.61051261,0.73115349};
+		up[]={-0.23468202,0.79200649,0.56360447};
+		aside[]={0.92316592,-1.4901161e-008,0.38440162};
 	};
 };
 binarizationWanted=0;
@@ -29,13 +33,14 @@ addons[]=
 	"A3_Characters_F_Exp",
 	"A3_Soft_F_Exp_Truck_01",
 	"A3_Characters_F",
-	"A3_Modules_F_Curator_Curator"
+	"A3_Modules_F_Curator_Curator",
+	"A3_Structures_F_Ind_Transmitter_Tower"
 };
 class AddonsMetaData
 {
 	class List
 	{
-		items=4;
+		items=5;
 		class Item0
 		{
 			className="A3_Characters_F_Exp";
@@ -61,6 +66,13 @@ class AddonsMetaData
 		{
 			className="A3_Modules_F_Curator";
 			name="Arma 3 Zeus Update - Scripted Modules";
+			author="Bohemia Interactive";
+			url="https://www.arma3.com";
+		};
+		class Item4
+		{
+			className="A3_Structures_F_Ind";
+			name="Arma 3 - Industrial Structures";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
@@ -188,7 +200,7 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={3961.6064,206.79803,4555.9248};
+						position[]={4053.395,215.10001,4557.1655};
 					};
 					side="West";
 					flags=7;
@@ -198,6 +210,7 @@ class Mission
 					};
 					id=7;
 					type="B_Soldier_A_F";
+					atlOffset=1.5258789e-005;
 					class CustomAttributes
 					{
 						class Attribute0
@@ -234,6 +247,7 @@ class Mission
 			{
 			};
 			id=9;
+			atlOffset=1.5258789e-005;
 		};
 		class Item3
 		{
@@ -315,7 +329,7 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={3961.2883,206.93448,4554.3467};
+						position[]={4053.0769,215.05991,4555.5874};
 					};
 					side="West";
 					flags=7;
@@ -374,7 +388,7 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={3963.1343,207.03256,4553.8086};
+						position[]={4054.9229,215.29218,4555.0493};
 					};
 					side="West";
 					flags=7;
@@ -384,7 +398,6 @@ class Mission
 					};
 					id=24;
 					type="B_Soldier_A_F";
-					atlOffset=-1.5258789e-005;
 					class CustomAttributes
 					{
 						class Attribute0
@@ -421,7 +434,6 @@ class Mission
 			{
 			};
 			id=23;
-			atlOffset=-1.5258789e-005;
 		};
 		class Item6
 		{
@@ -690,65 +702,6 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={4056.093,216.31233,4567.9116};
-					};
-					side="West";
-					flags=7;
-					class Attributes
-					{
-						name="AiJoe";
-					};
-					id=36;
-					type="B_Soldier_A_F";
-					class CustomAttributes
-					{
-						class Attribute0
-						{
-							property="speaker";
-							expression="_this setspeaker _value;";
-							class Value
-							{
-								class data
-								{
-									singleType="STRING";
-									value="Male11ENG";
-								};
-							};
-						};
-						class Attribute1
-						{
-							property="pitch";
-							expression="_this setpitch _value;";
-							class Value
-							{
-								class data
-								{
-									singleType="SCALAR";
-									value=1.03;
-								};
-							};
-						};
-						nAttributes=2;
-					};
-				};
-			};
-			class Attributes
-			{
-			};
-			id=35;
-		};
-		class Item11
-		{
-			dataType="Group";
-			side="West";
-			class Entities
-			{
-				items=1;
-				class Item0
-				{
-					dataType="Object";
-					class PositionInfo
-					{
 						position[]={4097.1191,221.23143,4594.8716};
 					};
 					side="West";
@@ -796,6 +749,23 @@ class Mission
 			{
 			};
 			id=38;
+		};
+		class Item11
+		{
+			dataType="Object";
+			class PositionInfo
+			{
+				position[]={4076.4021,221.39566,4581.228};
+			};
+			side="Empty";
+			flags=5;
+			class Attributes
+			{
+				init="[] spawn {" \n "   sleep 3;" \n "   { [_x] call irn_fnc_damage_ai; } forEach [victim_01, victim_02, victim_03, victim_04, victim_05, victim_06];" \n "[doctor_01, true, 1] spawn irn_fnc_initAutoDoc;" \n "};" \n "";
+			};
+			id=41;
+			type="Land_TBox_F";
+			atlOffset=-0.026992798;
 		};
 	};
 };
