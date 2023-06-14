@@ -56,7 +56,7 @@ irn_fnc_chatNearby = {
 
 irn_fnc_formatETA = {
     params ["_seconds"];
-    _rounded = ceil(_seconds / 10) * 10;
+    _rounded = ceil(_seconds / 5) * 5;
     str(_rounded)
 };
 
@@ -74,7 +74,7 @@ irn_fnc_initAutodoc = {
     _doc setVariable ["isAutodoc", true];
     // start medic tent loop
     while {alive _doc && _doc getVariable ["isAutodoc", false]} do {
-        sleep 3;
+        sleep 1;
         // suspend while doctor in unconcious
         if ([_doc] call irn_fnc_isKnockedout) then {
             continue;
@@ -94,7 +94,7 @@ irn_fnc_initAutodoc = {
             [_doc, ("Treating " + name(_patient) + " now!")] call irn_fnc_chatNearby;
             
             waitUntil {
-                movetoCompleted _doc || movetoFailed _doc || !_canmove;
+                unitReady _doc || !_canmove || !([_patient] call irn_fnc_isKnockedout);
             };
             if (_canmove && movetoFailed _doc) then {
                 [_doc, ("I can't reach " + name(_patient) + "!")] call irn_fnc_chatNearby;
@@ -105,27 +105,27 @@ irn_fnc_initAutodoc = {
             _doc setDir (_doc getDir _patient);
             _doc setunitPos "middle";
             sleep 1;
-            [_doc, selectRandom ["KNEEL_TREAT", "KNEEL_TREAT2"], "ASIS"] call BIS_fnc_ambientanim;
-            _eta = [_patient] call irn_fnc_treat_wounded;
+            [_doc, selectRandom ["KNEEL_TREAT", "KNEEL_TREAT2"], "ASIS", objNull, true] call BIS_fnc_ambientanim;
+            _eta = [_patient, _speedFactor] call irn_fnc_treat_wounded;
             
             _etastr =[_eta] call irn_fnc_formatETA;
             [_doc, ("Patient will be combat-ready in " + _etastr + " seconds.")] call irn_fnc_chatNearby;
-            sleep _eta;
+            sleep (_eta + 0.5);
             
             // resume
             _doc setunitPos "UP";
             _doc enableAI "move";
             _doc call BIS_fnc_ambientanim__terminate;
+            _doc doWatch objNull;
         };
     }
 };
 
-[] spawn {
+// [] spawn {
     // init stuff
-    sleep 1;
-    {
-        [_x] call irn_fnc_damage_ai;
-    } forEach [victim_01, victim_02, victim_03, victim_04, victim_05, victim_06];
-    
-    [doctor_01, false] spawn irn_fnc_initAutodoc;
-}
+    // sleep 1;
+    // {
+        // [_x] call irn_fnc_damage_ai;
+    // } forEach [victim_01, victim_02, victim_03, victim_04, victim_05, victim_06];
+    // [doctor_01, false] spawn irn_fnc_initAutodoc;
+// }
