@@ -118,7 +118,7 @@ irn_fnc_initAutodoc = {
             _etastr =[_eta] call irn_fnc_formatETA;
             [_doc, ("Patient will be combat-ready in " + _etastr + " seconds.")] call irn_fnc_chatNearby;
             sleep (_eta + 0.5);
-            // TODO abort early if patient wakes up or dies
+            // todo abort early if patient wakes up or dies
             
             // resume
             _doc setunitPos "UP";
@@ -130,6 +130,11 @@ irn_fnc_initAutodoc = {
     _doc getVariable ["isAutodoc", false, true];
 };
 
+irn_fnc_requestMedicfor = {
+    params["_medic", "_patient"];
+    _patient setVariable ["ACE_medical_ai_assignedMedic", _medic, true];
+    _patient call ACE_medical_ai_fnc_requestMedic;
+}
 // [] spawn {
     // init stuff
     // sleep 1;
