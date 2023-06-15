@@ -65,15 +65,17 @@ irn_fnc_formatETA = {
 
 /**
 * initialize this unit as an automatic doctor
-* requires spawn, not call
+* requires spawn, not call, MUST be on server
 * unit will heal all nearby ACE-unconcious units
 */
 irn_fnc_initAutodoc = {
-    if (!canSuspend) exitwith {};
+    if (!canSuspend || !isServer) exitwith {};
     params["_doc", ["_canmove", true], ["_speedFactor", 0.5]];
     if (!_canmove) then {
         _doc disableAI "path";
     };
+    if (_doc getVariable ["isAutodoc", false]) exitwith {};
+    
     _doc setVariable ["isAutodoc", true, true];
     // start medic tent loop
     while {alive _doc && _doc getVariable ["isAutodoc", false]} do {
@@ -110,7 +112,7 @@ irn_fnc_initAutodoc = {
             sleep 1;
             
             _anim = selectRandom ["KNEEL_TREAT", "KNEEL_TREAT2"];
-            // [_doc, _anim, "ASIS"] remoteExecCall ["BIS_fnc_ambientanim", 0, true];
+            // [_doc, _anim, "ASIS"] remoteExecCall ["BIS_fnc_ambientanim", owner _doc, true];
             _eta = [_doc, _patient, _speedFactor] call irn_fnc_treat_wounded;
             
             _etastr =[_eta] call irn_fnc_formatETA;
@@ -120,10 +122,11 @@ irn_fnc_initAutodoc = {
             // resume
             _doc setunitPos "UP";
             _doc enableAI "move";
-            // _doc remoteExecCall ["BIS_fnc_ambientanim__terminate", 0, true];
+            // _doc remoteExecCall ["BIS_fnc_ambientanim__terminate", owner _doc, true];
             _doc doWatch objNull;
         };
-    }
+    };
+    _doc getVariable ["isAutodoc", false, true];
 };
 
 // [] spawn {

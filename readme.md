@@ -43,3 +43,4 @@ runs the autodoc with "can move" and 10% healtime
 - speed factor: number from 0 to 1
   - 1: 100% heal time required, compared to KAT kit
   - 0: 0% heal time required (instant)
+

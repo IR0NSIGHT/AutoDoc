@@ -12,11 +12,11 @@ class EditorData
 	};
 	class ItemIDProvider
 	{
-		nextID=64;
+		nextID=65;
 	};
 	class MarkerIDProvider
 	{
-		nextID=1;
+		nextID=2;
 	};
 	class Camera
 	{
@@ -34,13 +34,14 @@ addons[]=
 	"A3_Characters_F",
 	"A3_Modules_F_Curator_Curator",
 	"A3_Structures_F_Ind_Transmitter_Tower",
-	"A3_Characters_F_Exp"
+	"A3_Characters_F_Exp",
+	"A3_Ui_F"
 };
 class AddonsMetaData
 {
 	class List
 	{
-		items=5;
+		items=6;
 		class Item0
 		{
 			className="A3_Soft_F_Exp";
@@ -76,6 +77,13 @@ class AddonsMetaData
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
+		class Item5
+		{
+			className="A3_Ui_F";
+			name="Arma 3 - User Interface";
+			author="Bohemia Interactive";
+			url="https://www.arma3.com";
+		};
 	};
 };
 dlcs[]=
@@ -86,6 +94,160 @@ randomSeed=14500790;
 class ScenarioData
 {
 	author="IR0NSIGHT";
+	disabledAI=1;
+	respawn=3;
+};
+class CustomAttributes
+{
+	class Category0
+	{
+		name="Multiplayer";
+		class Attribute0
+		{
+			property="ENH_dynamicSkill";
+			expression="if (!is3DEN && _value # 0 && isServer) then      {        _value params        [          '_enable',          '_skillMinBLUFOR',          '_skillAimMinBLUFOR',          '_skillMaxBLUFOR',          '_skillAimMaxBlUFOR',          '_skillMinOPFOR',          '_skillAimMinOPFOR',          '_skillMaxOPFOR',          '_skillAimMaxOPFOR',          '_skillMinINDFOR',          '_skillAimMinINDFOR',          '_skillMaxINDFOR',          '_skillAimMaxINDFOR'        ];        [          true,          [            [WEST, _skillMinBLUFOR, _skillAimMinBLUFOR, _skillMaxBLUFOR, _skillAimMaxBlUFOR],            [EAST, _skillMinOPFOR, _skillAimMinOPFOR, _skillMaxOPFOR, _skillAimMaxOPFOR],            [INDEPENDENT, _skillMinINDFOR, _skillAimMinINDFOR, _skillMaxINDFOR, _skillAimMaxINDFOR]          ]        ] call BIS_fnc_EXP_camp_dynamicAISkill;      }";
+			class Value
+			{
+				class data
+				{
+					singleType="ARRAY";
+					class value
+					{
+						items=13;
+						class Item0
+						{
+							class data
+							{
+								singleType="BOOL";
+								value=0;
+							};
+						};
+						class Item1
+						{
+							class data
+							{
+								singleType="SCALAR";
+								value=0.5;
+							};
+						};
+						class Item2
+						{
+							class data
+							{
+								singleType="SCALAR";
+								value=0.30000001;
+							};
+						};
+						class Item3
+						{
+							class data
+							{
+								singleType="SCALAR";
+								value=0.80000001;
+							};
+						};
+						class Item4
+						{
+							class data
+							{
+								singleType="SCALAR";
+								value=0.5;
+							};
+						};
+						class Item5
+						{
+							class data
+							{
+								singleType="SCALAR";
+								value=0.5;
+							};
+						};
+						class Item6
+						{
+							class data
+							{
+								singleType="SCALAR";
+								value=0.30000001;
+							};
+						};
+						class Item7
+						{
+							class data
+							{
+								singleType="SCALAR";
+								value=0.80000001;
+							};
+						};
+						class Item8
+						{
+							class data
+							{
+								singleType="SCALAR";
+								value=0.5;
+							};
+						};
+						class Item9
+						{
+							class data
+							{
+								singleType="SCALAR";
+								value=0.5;
+							};
+						};
+						class Item10
+						{
+							class data
+							{
+								singleType="SCALAR";
+								value=0.30000001;
+							};
+						};
+						class Item11
+						{
+							class data
+							{
+								singleType="SCALAR";
+								value=0.80000001;
+							};
+						};
+						class Item12
+						{
+							class data
+							{
+								singleType="SCALAR";
+								value=0.5;
+							};
+						};
+					};
+				};
+			};
+		};
+		class Attribute1
+		{
+			property="RespawnTemplates";
+			expression="true";
+			class Value
+			{
+				class data
+				{
+					singleType="ARRAY";
+					class value
+					{
+						items=1;
+						class Item0
+						{
+							class data
+							{
+								singleType="STRING";
+								value="Counter";
+							};
+						};
+					};
+				};
+			};
+		};
+		nAttributes=2;
+	};
 };
 class Mission
 {
@@ -111,7 +273,7 @@ class Mission
 	};
 	class Entities
 	{
-		items=12;
+		items=13;
 		class Item0
 		{
 			dataType="Object";
@@ -193,12 +355,11 @@ class Mission
 			dataType="Logic";
 			class PositionInfo
 			{
-				position[]={4083.7463,221.20972,4605.5498};
-				angles[]={0,0,0.079827175};
+				position[]={4068.209,218.42723,4577.4009};
+				angles[]={6.2108064,0,0.074857175};
 			};
 			id=10;
 			type="ModuleCurator_F";
-			atlOffset=1.5258789e-005;
 			class CustomAttributes
 			{
 				class Attribute0
@@ -210,7 +371,7 @@ class Mission
 						class data
 						{
 							singleType="STRING";
-							value="";
+							value="#adminLogged";
 						};
 					};
 				};
@@ -1089,6 +1250,15 @@ class Mission
 			{
 			};
 			id=58;
+		};
+		class Item12
+		{
+			dataType="Marker";
+			position[]={4086.189,219.356,4575.729};
+			name="respawn_west";
+			type="mil_circle";
+			id=64;
+			atlOffset=-1.5258789e-005;
 		};
 	};
 };
