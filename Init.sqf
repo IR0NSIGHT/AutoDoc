@@ -1,7 +1,6 @@
 irn_fnc_damage_ai = {
     params ["_ai"];
-    
-    [_ai, [[3, "Body", 1]], "bullet"] call ace_medical_damage_fnc_woundsHandlerBase
+    [_ai, [[3, "Body", 1]], "bullet"] remoteExecCall ["ace_medical_damage_fnc_woundsHandlerBase"]
 };
 /**
 * will treat all wounds, respecting treating time per wound
@@ -9,15 +8,16 @@ irn_fnc_damage_ai = {
 */
 irn_fnc_treat_wounded = {
     params[
+        "_doc",
         "_wounded",
         ["_speedFactor", 0.5]
     ];
     _treattime = ["", _wounded] call ace_medical_treatment_fnc_getHealtime;
     _delay = _treattime * _speedFactor;
-    [_delay, _wounded] spawn {
-        params ["_delay", "_wounded"];
+    [_doc, _delay, _wounded] spawn {
+        params ["_doc", "_delay", "_wounded"];
         sleep _delay;
-        [_wounded] call ace_medical_treatment_fnc_fullHeallocal;
+        [_doc, _wounded] remoteExecCall ["ace_medical_treatment_fnc_fullHeal", 2];
     };
     // return
     _delay
@@ -74,7 +74,7 @@ irn_fnc_initAutodoc = {
     if (!_canmove) then {
         _doc disableAI "path";
     };
-    _doc setVariable ["isAutodoc", true];
+    _doc setVariable ["isAutodoc", true, true];
     // start medic tent loop
     while {alive _doc && _doc getVariable ["isAutodoc", false]} do {
         sleep 1;
@@ -108,8 +108,10 @@ irn_fnc_initAutodoc = {
             _doc setDir (_doc getDir _patient);
             _doc setunitPos "middle";
             sleep 1;
-            [_doc, selectRandom ["KNEEL_TREAT", "KNEEL_TREAT2"], "ASIS", objNull, true] call BIS_fnc_ambientanim;
-            _eta = [_patient, _speedFactor] call irn_fnc_treat_wounded;
+            
+            _anim = selectRandom ["KNEEL_TREAT", "KNEEL_TREAT2"];
+            // [_doc, _anim, "ASIS"] remoteExecCall ["BIS_fnc_ambientanim", 0, true];
+            _eta = [_doc, _patient, _speedFactor] call irn_fnc_treat_wounded;
             
             _etastr =[_eta] call irn_fnc_formatETA;
             [_doc, ("Patient will be combat-ready in " + _etastr + " seconds.")] call irn_fnc_chatNearby;
@@ -118,7 +120,7 @@ irn_fnc_initAutodoc = {
             // resume
             _doc setunitPos "UP";
             _doc enableAI "move";
-            _doc call BIS_fnc_ambientanim__terminate;
+            // _doc remoteExecCall ["BIS_fnc_ambientanim__terminate", 0, true];
             _doc doWatch objNull;
         };
     }
