@@ -118,6 +118,7 @@ irn_fnc_initAutodoc = {
             _etastr =[_eta] call irn_fnc_formatETA;
             [_doc, ("Patient will be combat-ready in " + _etastr + " seconds.")] call irn_fnc_chatNearby;
             sleep (_eta + 0.5);
+            // TODO abort early if patient wakes up or dies
             
             // resume
             _doc setunitPos "UP";
