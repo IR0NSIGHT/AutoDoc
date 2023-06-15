@@ -44,3 +44,9 @@ runs the autodoc with "can move" and 10% healtime
   - 1: 100% heal time required, compared to KAT kit
   - 0: 0% heal time required (instant)
 
+## Limitations
+
+- patients can die while being treated
+- doctor will wait for the estimated treament time, ignoreing if patient dies or wakes up early
+- doctor can only heal unconcious, not lightly injured units
+- doctor doesnt have animation because of fucky MP-locality
